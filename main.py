@@ -1,16 +1,35 @@
-# This is a sample Python script.
+import matplotlib.pyplot as plt
+import numpy as np
 
-# Press Maj+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+t = int(input("Entrez le numéro de profil NACA00"))
+t = t/100
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+corde = int(input("Entrez la corde du profil en m : "))
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+nb_points = int(input("Entrez le nombre de points le long de la corde : "))
+c = np.linspace(0, corde, nb_points)
+
+
+theta = np.linspace(0, np.pi, nb_points)
+x_c = 0.5 * (1 - np.cos(theta))
+
+
+y_t = 5 * t * (0.2969 * np.sqrt(x_c) - 0.126 * x_c - 0.3516 * np.power(x_c, 2) + 0.2843 * np.power(x_c,3) - 0.1036 * np.power(x_c,4))
+
+y_up = y_t * corde
+y_down = -y_t * corde
+
+plt.rcParams['font.size'] = 14
+plt.rcParams['figure.autolayout'] = True
+plt.rcParams['figure.dpi'] = 100
+
+plt.plot(c, y_up*corde, label='extrados')
+plt.plot(c, y_down*corde, label='intrados')
+plt.xlabel('corde [m]')
+plt.ylabel('épaisseur [m]')
+plt.legend()
+plt.grid()
+plt.title('Affichage profil')
+plt.ylim(-0.3*corde,0.3*corde)
+plt.show()
